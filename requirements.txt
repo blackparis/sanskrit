@@ -1,0 +1,13 @@
+boto3
+eventlet
+Flask
+Flask-Session
+Flask-SocketIO
+Flask-SQLAlchemy
+gunicorn
+psycopg2-binary
+python-engineio
+python-socketio
+requests
+SQLAlchemy
+Werkzeug==0.16.0
