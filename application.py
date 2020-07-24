@@ -372,8 +372,8 @@ def deletechat(chat_id):
 def homepage():
     user = get_user()
     if not user:
-        #return redirect(url_for('contents'))
-        return redirect(url_for('login'))
+        return redirect(url_for('contents'))
+        #return redirect(url_for('login'))
 
     if session.get("administrator") == None:
         session["administrator"] = False
