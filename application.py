@@ -1,6 +1,3 @@
-import eventlet
-eventlet.monkey_patch()
-
 from flask import Flask, render_template, url_for, redirect, request, jsonify, session
 from flask_session import Session
 from flask_socketio import SocketIO, emit
@@ -1932,13 +1929,13 @@ def register():
     password = password.strip()
     password1 = password1.strip()
     
-    
+    """
     if "admin" in username or username in envs.reserved_keywords:
         return render_template(
             "auth/register.html",
             register_error="Username not available."
         )
-    
+    """
 
     if password1 != password:
         return render_template(
@@ -1989,7 +1986,7 @@ def register():
         "code": code
     }
     
-    if util.sendLambdaMail(email, code):
+    if util.sendemail(email, code):
         return redirect(url_for('verification'))
     
     return redirect(url_for('cancelverification'))
@@ -2065,7 +2062,7 @@ def resendVerificationCode():
 
     session["registration"]["code"] = code
     
-    if util.sendLambdaMail(session["registration"]["email"], code):
+    if util.sendemail(session["registration"]["email"], code):
         return redirect(url_for('verification'))
     
     return redirect(url_for('cancelverification'))
@@ -2109,7 +2106,7 @@ def recover():
         "code": code
     }
     
-    if util.sendLambdaMail(user.email, code):
+    if util.sendemail(user.email, code):
         return redirect(url_for('verify'))
     
     return redirect(url_for('cancelRecoverPassword'))
@@ -2198,7 +2195,7 @@ def resendRecoveryCode():
     code = str(random.randint(100000, 999999))
     session["recoverpassword"]["code"] = code
     
-    if util.sendLambdaMail(session["recoverpassword"]["email"], code):
+    if util.sendemail(session["recoverpassword"]["email"], code):
         return redirect(url_for('verify'))
     
     return redirect(url_for('cancelRecoverPassword'))
@@ -2213,5 +2210,5 @@ def cancelRecoverPassword():
     return redirect(url_for('homepage'))
     
 
-#if __name__ == '__main__':
-#    socketio.run(application, port=8080)
+if __name__ == '__main__':
+    socketio.run(application, port=8080)

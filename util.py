@@ -1,11 +1,8 @@
-import eventlet
-boto3 = eventlet.import_patched('boto3')
-
+import smtplib
+import email.utils
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
 import envs
-import os
-
-#import boto3
-import json
 
 
 def validate_username(username):
@@ -16,6 +13,7 @@ def validate_username(username):
             if c != '.' and c != '_' and c != '-':
                 return 0
     return 1
+
 
 def validate_password(password):
     for c in password:
@@ -28,7 +26,6 @@ def validate_password(password):
     if password.isnumeric():
         return 0
     return 1
-
 
 
 def validate_email(email):
@@ -66,22 +63,51 @@ def validate_email(email):
     return 1
 
 
-def sendLambdaMail(email, code):
-    p = {"email": email, "code": code}
-    AWS_REGION = "ap-south-1"
-    
-    try:
-        client = boto3.client('lambda', region_name=AWS_REGION)
-        response = client.invoke(
-            FunctionName="sendemail",
-            InvocationType="RequestResponse",
-            Payload=json.dumps(p)
-        )
+def sendemail(RECIPIENT, code):
+    SENDER = "verification@paris-sanskrit.com"
+    SENDERNAME = 'Sanskrit'
+    USERNAME_SMTP = envs.USERNAME_SMTP
+    PASSWORD_SMTP = envs.PASSWORD_SMTP
+    HOST = envs.SMTP_HOST
+    PORT = 587
+
+    SUBJECT = "Verify Your Email Address"
+    BODY_TEXT = f"Verification Code: {code}"
+    BODY_HTML = f"""
+    <html>
+        <head></head>
+        <body style="text-align: center;">
+            <br>
+            <h2>Verification Code</h2>
+            <h4>{code}</h4>
+            <br>
+            <p>This email was sent by
+                <a href='https://paris-sanskrit.com'>Sanskrit</a>
+            </p>
+            <p>Note, this e-mail was sent from an address that cannot accept incoming e-mails.</p>
+        </body>
+    </html>
+                """
+
+    msg = MIMEMultipart('alternative')
+    msg['Subject'] = SUBJECT
+    msg['From'] = email.utils.formataddr((SENDERNAME, SENDER))
+    msg['To'] = RECIPIENT
+
+    part1 = MIMEText(BODY_TEXT, 'plain')
+    part2 = MIMEText(BODY_HTML, 'html')
+    msg.attach(part1)
+    msg.attach(part2)
+
+    try:  
+        server = smtplib.SMTP(HOST, PORT)
+        server.ehlo()
+        server.starttls()
+        server.ehlo()
+        server.login(USERNAME_SMTP, PASSWORD_SMTP)
+        server.sendmail(SENDER, RECIPIENT, msg.as_string())
+        server.close()
     except:
         return False
-    
-    r = response["Payload"].read().decode()
-    if r == "true":
-        return True
     else:
-        return False
+        return True
