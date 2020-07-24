@@ -11,3 +11,5 @@ python-socketio
 requests
 SQLAlchemy
 Werkzeug==0.16.0
+gevent
+gevent-websocket
