@@ -1929,13 +1929,13 @@ def register():
     password = password.strip()
     password1 = password1.strip()
     
-    """
+    
     if "admin" in username or username in envs.reserved_keywords:
         return render_template(
             "auth/register.html",
             register_error="Username not available."
         )
-    """
+    
 
     if password1 != password:
         return render_template(
