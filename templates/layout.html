@@ -24,15 +24,17 @@
                 <h1 style="font-style: italic;">Sanskrit</h1>                
                 {% block links %}{% endblock %}
             </div>
-            <div class="col-lg-1">
-            </div>
             <div class="col-lg-2">
-                <div id="newContentAdded">
-                    <a href="" id="refreshsite">Refresh Site</a>
-                </div>
-                {% if user %}
-                <div>{{user.username}}</div>
+                {% if user or admin %}
+                    <div>{{user.username}}</div>
+                {% else %}
+                    <a href="{{ url_for('login') }}" style="color:red;">Login</a>
                 {% endif %}
+            </div>
+            <div class="col-lg-1">
+                <div id="newContentAdded">
+                    <a href="" id="refreshsite">Refresh</a>
+                </div>
                 <div>
                     <a id="adminLogout" href="">
                         {% if admin or user %}
