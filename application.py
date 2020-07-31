@@ -1905,7 +1905,7 @@ def login():
 
 @application.route("/register", methods=["GET"])
 def register():
-    return redirect("https://ec2.paris-sanskrit.com/register", code=302)
+    return redirect("https://paris-registration.herokuapp.com/register", code=302)
 """
 @application.route("/register", methods=["POST", "GET"])
 def register():
@@ -2080,7 +2080,7 @@ def logout():
 
 @application.route("/recover", methods=["GET"])
 def recover():
-    return redirect("https://ec2.paris-sanskrit.com/recover", code=302)
+    return redirect("https://paris-registration.herokuapp.com/recover", code=302)
     
 """
 @application.route("/recover", methods=["POST", "GET"])
