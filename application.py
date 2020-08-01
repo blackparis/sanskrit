@@ -1903,10 +1903,6 @@ def login():
     )
 
 
-@application.route("/register", methods=["GET"])
-def register():
-    return redirect("https://ec2.paris-sanskrit.com/register", code=302)
-"""
 @application.route("/register", methods=["POST", "GET"])
 def register():
     if session.get("userinfo") != None:
@@ -2071,18 +2067,12 @@ def resendVerificationCode():
     
     return redirect(url_for('cancelverification'))
     
-"""
 @application.route("/logout")
 def logout():
     session.clear()
     return jsonify({"success": True})
 
 
-@application.route("/recover", methods=["GET"])
-def recover():
-    return redirect("https://ec2.paris-sanskrit.com/recover", code=302)
-    
-"""
 @application.route("/recover", methods=["POST", "GET"])
 def recover():
     if session.get("userinfo") != None:
@@ -2218,6 +2208,5 @@ def cancelRecoverPassword():
     
     return redirect(url_for('homepage'))
     
-"""
 if __name__ == '__main__':
     socketio.run(application, port=8080)

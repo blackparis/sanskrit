@@ -1,8 +1,8 @@
-#import smtplib
-#import email.utils
-#from email.mime.multipart import MIMEMultipart
-#from email.mime.text import MIMEText
-#import envs
+import smtplib
+import email.utils
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+import envs
 
 
 def validate_username(username):
@@ -64,7 +64,7 @@ def validate_email(email):
         
     return 1
 
-"""
+
 def sendemail(RECIPIENT, code):
     SENDER = "verification@paris-sanskrit.com"
     SENDERNAME = 'Sanskrit'
@@ -75,7 +75,7 @@ def sendemail(RECIPIENT, code):
 
     SUBJECT = "Verify Your Email Address"
     BODY_TEXT = f"Verification Code: {code}"
-    BODY_HTML = f""""""
+    BODY_HTML = f"""
     <html>
         <head></head>
         <body style="text-align: center;">
@@ -89,7 +89,7 @@ def sendemail(RECIPIENT, code):
             <p>Note, this e-mail was sent from an address that cannot accept incoming e-mails.</p>
         </body>
     </html>
-                """"""
+                """
 
     msg = MIMEMultipart('alternative')
     msg['Subject'] = SUBJECT
@@ -114,4 +114,3 @@ def sendemail(RECIPIENT, code):
     else:
         return True
         
-"""
